@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
 
@@ -21,9 +22,12 @@ public class StudentService {
         return studentMap.get(studentId);
     }
 
-    public Student updateStudent(Long studentId, Student student) {
-        studentMap.put(studentId, student);
-        return student;
+    public Student updateStudent(Student student) {
+        if (studentMap.containsKey(student.getId())) {
+            studentMap.put(student.getId(), student);
+            return student;
+        }
+        return null;
     }
 
     public Student deleteStudent(Long studentId) {
@@ -39,5 +43,9 @@ public class StudentService {
             }
         }
         return studentsByAge;
+    }
+
+    public Collection<Student> getAllStudents() {
+        return studentMap.values();
     }
 }

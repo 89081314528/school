@@ -6,6 +6,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -34,7 +35,10 @@ public class FacultyController {
 
     @PutMapping
     public ResponseEntity updateFaculty(@RequestBody Faculty faculty) {
-        Faculty updateFaculty = facultyService.updateFaculty(faculty.getId(), faculty);
+        Faculty updateFaculty = facultyService.updateFaculty(faculty);
+        if(updateFaculty == null) {
+            return ResponseEntity.notFound() .build();
+        }
         return ResponseEntity.ok(updateFaculty);
     }
 
@@ -47,5 +51,10 @@ public class FacultyController {
     @GetMapping("/getByColor/{color}")
     public List<Faculty> getByColour(@PathVariable String color) {
         return facultyService.getByColour(color);
+    }
+
+    @GetMapping
+    public ResponseEntity<Collection<Faculty>> getAllFaculties() {
+        return ResponseEntity.ok(facultyService.getAllFaculties());
     }
 }

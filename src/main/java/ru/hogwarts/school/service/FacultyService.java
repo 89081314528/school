@@ -21,9 +21,12 @@ public class FacultyService {
         return facultyMap.get(facultyId);
     }
 
-    public Faculty updateFaculty(Long facultyId, Faculty faculty) {
-        facultyMap.put(facultyId, faculty);
-        return faculty;
+    public Faculty updateFaculty(Faculty faculty) {
+        if (facultyMap.containsKey(faculty.getId())) {
+            facultyMap.put(faculty.getId(), faculty);
+            return faculty;
+        }
+        return null;
     }
 
     public Faculty deleteFaculty (Long facultyId) {
@@ -39,5 +42,9 @@ public class FacultyService {
             }
         }
         return facultiesByColour;
+    }
+
+    public Collection<Faculty> getAllFaculties() {
+        return facultyMap.values();
     }
 }
